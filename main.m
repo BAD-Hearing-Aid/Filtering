@@ -1,0 +1,79 @@
+%% Helper file for some aspects of the ANSI standard
+thirdOctaveMidFrequencyArray = zeros(1,18);
+lowerFreqLimit = 245;
+upperFreqLimit = 8000;
+midfrequency = 245;
+bandNumber = 24:41;
+index = 1;
+
+while midfrequency >= lowerFreqLimit && midfrequency <= upperFreqLimit
+    midfrequency = midbandFrequencyCalculations(bandNumber(index));
+    thirdOctaveMidFrequencyArray(1, index) = midfrequency;
+    index = index + 1;
+end
+
+%%
+format long g
+thirdOctaveMidFrequencyArray = round(thirdOctaveMidFrequencyArray,5,'significant');
+Band = bandNumber';
+fm = thirdOctaveMidFrequencyArray';
+Lowerfreq = fm.*2^(-1/6);
+Upperfreq = fm.*2^(1/6);
+
+
+T = table(Band, fm, Lowerfreq, Upperfreq)
+% Sample time for use in the simulink simulations
+T = 1/44100
+%%
+% This script simulates an audiogram
+
+frequencies = [250, 500, 1000, 2000, 3000, 4000, 6000];
+dBValuesAudiogram = [-40, -40, -40, -40, -40, -40, -40]; 
+
+
+% Plot Audiogram 
+plot(frequencies, dBValuesAudiogram,'-o')
+xlim([0 6250])
+ylim([-100 0])
+xlabel('Frequency (Hz)')
+ylabel('Hearing Level dB')
+set(gca,'xaxisLocation','top')
+%%
+% insertionGainNAL-R
+dBValuesAudiogram = dBValuesAudiogram*-1;
+PTA = (dBValuesAudiogram(2) + dBValuesAudiogram(3) + dBValuesAudiogram(4))/3;
+X = 0.15*PTA;
+C = [-17, -8, 1, -1, -2, -2, -2];
+insertionGain = zeros(1, length(dBValuesAudiogram));
+
+for i = 1:length(frequencies)
+    insertionGain(1, i) = X + 0.31.*dBValuesAudiogram(i) + C(i);
+end
+
+% Plot insertion Gain graph
+% Plot Audiogram 
+plot(frequencies, insertionGain,'-o')
+xlim([125 6250])
+ylim([0 50])
+xlabel('Frequency (Hz)')
+ylabel('Insertion Gain dB')
+%%
+%Interpolate values so the gain constants can be worked out
+figure;
+xq = 0:1:8000;
+vq2 = interp1(frequencies,insertionGain,xq,'spline');
+plot(frequencies,insertionGain,'o',xq,vq2,':.')
+xlim([125 6250])
+ylim([0 50])
+title('Spline Interpolation');
+%%
+%Determine the gain values according to audiogram. 
+frequencies;
+fmRounded = round(fm);
+requiredGainDB = zeros(16, 1);
+for i = 1:16
+    freq = fmRounded(i);
+    requiredGainDB(i, 1) = vq2(freq);
+end
+requiredGainDB
+gainConsts = 10.^(requiredGainDB/10)
