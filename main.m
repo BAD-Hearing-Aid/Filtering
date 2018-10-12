@@ -76,4 +76,5 @@ for i = 1:16
     requiredGainDB(i, 1) = vq2(freq);
 end
 requiredGainDB
+fmRounded
 gainConsts = 10.^(requiredGainDB/10)
