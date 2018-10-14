@@ -42,14 +42,14 @@ dBValuesAudiogram = [40, 40, 40, 40, 40, 40, 40];
 % Plot Audiogram 
 plot(frequencies, dBValuesAudiogram,'-o')
 xlim([0 6250])
-ylim([0 100])
+ylim([0 10])
 xlabel('Frequency (Hz)')
 ylabel('Hearing Level dB')
 set(gca,'xaxisLocation','top', 'Ydir', 'reverse')
 
 %%
 % insertionGainNAL-R
-% dBValuesAudiogram = dBValuesAudiogram*-1;
+dBValuesAudiogram = dBValuesAudiogram*-1;
 PTA = (dBValuesAudiogram(2) + dBValuesAudiogram(3) + dBValuesAudiogram(4))/3;
 X = 0.15*PTA;
 C = [-17, -8, 1, -1, -2, -2, -2];
