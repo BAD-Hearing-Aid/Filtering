@@ -24,10 +24,9 @@ Upperfreq = fm.*2^((1+k)/6);
 Fstop1 = fm.*2^((8+k)/6);
 Fstop2 = fm.*2^(-1*(8+k)/6);
 
-Lowerfreq = round(Lowerfreq);
-Upperfreq = round(Upperfreq);
-Fstop1 = round(Fstop1);
-Fstop2 = round(Fstop2);
+Lowerfreq = round(Lowerfeq);
+Upperfreq = round()
+ round(fm)
 
 T = table(Band, fm, Lowerfreq, Upperfreq, Fstop2, Fstop1)
 % Sample time for use in the simulink simulations
