@@ -37,7 +37,7 @@ T = 1/44100
 
 frequencies = [250, 500, 1000, 2000, 3000, 4000, 6000, 8000];
 % dBValuesAudiogram = [63, 66, 70, 77, 77, 80, 81, 81]; 
-dBValuesAudiogram = [25, 30, 55, 65, 80, 85, 90, 90]; 
+dBValuesAudiogram = [35, 40, 55, 65, 68, 70, 71, 73]; 
 H = dBValuesAudiogram
 % dBValuesAudiogram1 = [30, 38, 38, 45, 49, 56, 50, 51]; 
 
