@@ -36,12 +36,15 @@ T = 1/44100
 % This script simulates an audiogram
 
 frequencies = [250, 500, 1000, 2000, 3000, 4000, 6000, 8000];
-dBValuesAudiogram = [63, 66, 70, 77, 77, 80, 81, 81]; 
+dBValuesAudiogram = [3, 5, 10, 12, 7, 80, 81, 81]; 
+% dBValuesAudiogram = [35, 40, 55, 65, 68, 70, 71, 73]; 
+
+H = dBValuesAudiogram
 % dBValuesAudiogram1 = [30, 38, 38, 45, 49, 56, 50, 51]; 
 
 
 % Plot Audiogram 
-plot(frequencies, dBValuesAudiogram1,'-o')
+plot(frequencies, dBValuesAudiogram,'-o')
 % hold on;
 grid on;
 % plot(frequencies, dBValuesAudiogram1,'-o')
@@ -87,7 +90,7 @@ elseif H(4) > 115 && H(4) <= 120
 end
   
 for i = 1:length(frequencies)
-    insertionGain(1, i) = X + 0.31.*dBValuesAudiogram(i) + C(i);
+    insertionGain(1, i) = X + 0.31.*dBValuesAudiogram(i) + C(i)+ PC(i);
 end
 
 % Plot insertion Gain graph

@@ -43,7 +43,7 @@ T = table(Band, fm, Lowerfreq, Upperfreq, Fstop2, Fstop1)
 
 %% filter
 f = [0:1:20000];
-fs = 35000
+fs = 35000;
 
 filterArray = zeros(1,16);
 
@@ -63,6 +63,7 @@ for i =1:9
     info(tempFIR)
 %     grpdelay(tempFIR)
 end
+ylim([-70 10])
 
 i = 10
 Fst1 = Fstop2(i)*2/fs;
@@ -78,7 +79,21 @@ plot(f,dB)
 hold on;
 info(tempFIR)
 
-for i =11:16
+i = 11
+Fst1 = Fstop2(i)*2/fs;
+Fp1 = Lowerfreq(i)*2/fs;
+Fp2 = Upperfreq(i)*2/fs;
+Fst2 = Fstop1(i)*2/fs;
+temp = fdesign.bandpass('Fst1,Fp1,Fp2,Fst2,Ast1,Ap,Ast2', ...
+Fst1,Fp1,Fp2,Fst2,68,1,68);
+tempFIR = design(temp,'equiripple');
+[h,f] = freqz(tempFIR, f, fs);
+dB = mag2db(abs(h));
+plot(f,dB)
+hold on;
+info(tempFIR)
+
+for i =12:16
     i
     Fst1 = Fstop2(i)*2/fs;
     Fp1 = Lowerfreq(i)*2/fs;
@@ -98,6 +113,6 @@ end
 % dB = mag2db(abs(h));
 % plot(f,dB)
 xlim([0 12000])
-ylim([-62 10])
+ylim([-70 10])
 % legend('Ideal','firpm Design')
 xlabel 'Frequency (kHz)', ylabel 'Magnitude (dB)'

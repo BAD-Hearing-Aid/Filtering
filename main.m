@@ -36,8 +36,9 @@ T = 1/44100
 % This script simulates an audiogram
 
 frequencies = [250, 500, 1000, 2000, 3000, 4000, 6000, 8000];
-% dBValuesAudiogram = [63, 66, 70, 77, 77, 80, 81, 81]; 
+% dBValuesAudiogram = [3, 5, 10, 12, 10, 13, 14, 16]; 
 dBValuesAudiogram = [35, 40, 55, 65, 68, 70, 71, 73]; 
+
 H = dBValuesAudiogram
 % dBValuesAudiogram1 = [30, 38, 38, 45, 49, 56, 50, 51]; 
 
@@ -98,7 +99,7 @@ end
 figure
 plot(frequencies, insertionGain,'-o')
 xlim([125 8500])
-ylim([0 50])
+ylim([0 40])
 xlabel('Frequency (Hz)')
 ylabel('Insertion Gain (dB)')
 %%
@@ -106,10 +107,11 @@ ylabel('Insertion Gain (dB)')
 figure;
 xq = 0:1:8000;
 vq2 = interp1(frequencies,insertionGain,xq,'spline');
-plot(frequencies,insertionGain,'o',xq,vq2,':.')
+plot(frequencies,insertionGain,'b o',xq,vq2,':.')
 xlim([125 8500])
-ylim([0 50])
-title('Spline Interpolation');
+ylim([0 40])
+xlabel('Frequency (Hz)')
+ylabel('Insertion Gain (dB)')
 %%
 %Determine the gain values according to audiogram. 
 frequencies;
